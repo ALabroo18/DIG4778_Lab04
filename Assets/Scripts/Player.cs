@@ -12,13 +12,6 @@ public class Player : MonoBehaviour
     private float verticalScreenLimit = 6f;
     private bool canShoot = true;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         Movement();
@@ -27,7 +20,7 @@ public class Player : MonoBehaviour
 
     void Movement()
     {
-        transform.Translate(new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) * Time.deltaTime * speed);
+        transform.Translate(new Vector3(, Input.GetAxis("Vertical"), 0) * Time.deltaTime * speed);
         if (transform.position.x > horizontalScreenLimit || transform.position.x <= -horizontalScreenLimit)
         {
             transform.position = new Vector3(transform.position.x * -1f, transform.position.y, 0);
