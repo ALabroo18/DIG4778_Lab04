@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     private float horizontalScreenLimit = 10f;
     private float verticalScreenLimit = 6f;
     private bool canShoot = true;
-
+    public InputAction playerController;
     // Start is called before the first frame update
     void Start()
     {

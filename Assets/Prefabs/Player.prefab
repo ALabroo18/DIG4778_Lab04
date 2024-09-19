@@ -173,6 +173,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   laserPrefab: {fileID: 5506627125660967038, guid: 1a8162fa00c811a43904a4f611676905, type: 3}
+  playerController:
+    m_Name: Player Controller
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: f2f517bf-7d6d-432d-bdfe-dabb308ba8b5
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &3710477904889351467
 MonoBehaviour:
   m_ObjectHideFlags: 0

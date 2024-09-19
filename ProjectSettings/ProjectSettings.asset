@@ -910,8 +910,8 @@ PlayerSettings:
   apiCompatibilityLevelPerPlatform: {}
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
-  metroPackageName: DIG4778C_Lab04
-  metroPackageVersion: 
+  metroPackageName: DIG4778CLab04
+  metroPackageVersion: 1.0.0.0
   metroCertificatePath: 
   metroCertificatePassword: 
   metroCertificateSubject: 
@@ -919,7 +919,7 @@ PlayerSettings:
   metroCertificateNotAfter: 0000000000000000
   metroApplicationDescription: DIG4778C_Lab04
   wsaImages: {}
-  metroTileShortName: 
+  metroTileShortName: DIG4778C_Lab04
   metroTileShowName: 0
   metroMediumTileShowName: 0
   metroLargeTileShowName: 0
