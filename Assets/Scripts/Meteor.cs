@@ -1,17 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class Meteor : MonoBehaviour
 {
-    
-    // Start is called before the first frame update
+    // Reference to impulse source component on object.
+    private CinemachineImpulseSource impulseSource;
+
+    // Screen shake profile created for this object.
+    [SerializeField] private ScreenShakeProfile profile;
+
     void Start()
     {
-        
+        impulseSource = GetComponent<CinemachineImpulseSource>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(Vector3.down * Time.deltaTime * 2f);
@@ -26,11 +30,13 @@ public class Meteor : MonoBehaviour
     {
         if (whatIHit.tag == "Player")
         {
+            CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, 1f);
             GameObject.Find("GameManager").GetComponent<GameManager>().gameOver = true;
             Destroy(whatIHit.gameObject);
             Destroy(this.gameObject);
         } else if (whatIHit.tag == "Laser")
         {
+            CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, profile.impulseForce);
             GameObject.Find("GameManager").GetComponent<GameManager>().meteorCount++;
             Destroy(whatIHit.gameObject);
             Destroy(this.gameObject);
