@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
         if (gameOver)
         {
             CancelInvoke();
+            GetComponent<AudioSource>().Stop();
         }
 
         if (Input.GetKeyDown(KeyCode.R) && gameOver)

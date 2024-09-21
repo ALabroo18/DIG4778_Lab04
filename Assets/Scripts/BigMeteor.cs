@@ -26,12 +26,6 @@ public class BigMeteor : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
-        if (hitCount >= 5)
-        {
-            Destroy(this.gameObject);
-            CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, profile.impulseForce);
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D whatIHit)
@@ -40,13 +34,25 @@ public class BigMeteor : MonoBehaviour
         {
             CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, 1f);
             GameObject.Find("GameManager").GetComponent<GameManager>().gameOver = true;
+            AudioManager.instance.PlayPlayerDeath(transform.position, 1f);
             Destroy(whatIHit.gameObject);
         }
         else if (whatIHit.tag == "Laser")
         {
-            CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, 0.25f);
             hitCount++;
             Destroy(whatIHit.gameObject);
+
+            if (hitCount >= 5)
+            {
+                AudioManager.instance.PlayBigMeteorDestroy(transform.position, 1f);
+                CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, profile.impulseForce);
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                AudioManager.instance.PlayBigMeteorHit(transform.position, 1f);
+                CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, 0.25f);
+            }
         }
     }
 }

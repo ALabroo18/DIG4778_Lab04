@@ -32,11 +32,13 @@ public class Meteor : MonoBehaviour
         {
             CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, 1f);
             GameObject.Find("GameManager").GetComponent<GameManager>().gameOver = true;
+            AudioManager.instance.PlayPlayerDeath(transform.position, 1f);
             Destroy(whatIHit.gameObject);
             Destroy(this.gameObject);
         } else if (whatIHit.tag == "Laser")
         {
             CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, profile.impulseForce);
+            AudioManager.instance.PlaySmallMeteorDestroy(transform.position, 0.75f);
             GameObject.Find("GameManager").GetComponent<GameManager>().meteorCount++;
             Destroy(whatIHit.gameObject);
             Destroy(this.gameObject);

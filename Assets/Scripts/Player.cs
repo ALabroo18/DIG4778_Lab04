@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     {
         if (InputManager.instance.attackInput && canShoot)
         {
+            AudioManager.instance.PlayPlayerShoot(transform.position, 1f);
             Instantiate(laserPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
             canShoot = false;
             StartCoroutine("Cooldown");
