@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
-public class Meteor : MonoBehaviour
+public class Meteor : Meteors
 {
     // The speed the meteor moves at.
     private float meteorSpeed = 2f;
-
-    // Once the meteor reaches the below y coordinate, it will be destroyed.
-    private float bottomScreenLimit = -11f;
 
     // Reference to impulse source component on object.
     private CinemachineImpulseSource impulseSource;
@@ -35,7 +32,7 @@ public class Meteor : MonoBehaviour
         {
             // Create a screenshake, set the game to over, play the player's death sound, destroy the player, and destroy the meteor.
             CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, 1f);
-            GameObject.Find("GameManager").GetComponent<GameManager>().gameOver = true;
+            GameManager.instance.gameOver = true;
             AudioManager.instance.PlayPlayerDeath(transform.position, 1f);
             Destroy(whatIHit.gameObject);
             Destroy(this.gameObject);
@@ -47,21 +44,15 @@ public class Meteor : MonoBehaviour
             // destory the laser, and destroy the meteor.
             CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, profile.impulseForce);
             AudioManager.instance.PlaySmallMeteorDestroy(transform.position, 0.75f);
-            GameObject.Find("GameManager").GetComponent<GameManager>().meteorCount++;
+            GameManager.instance.meteorCount++;
             Destroy(whatIHit.gameObject);
             Destroy(this.gameObject);
         }
     }
 
-    private void MeteorMovement()
+    public override void MeteorMovement()
     {
         // Move the meteor down based on its move speed.
         transform.Translate(Vector3.down * Time.deltaTime * meteorSpeed);
-
-        // If the meteor goes past the bottom edge of the screen, destroy it to prevent unnecessary object.
-        if (transform.position.y < bottomScreenLimit)
-        {
-            Destroy(this.gameObject);
-        }
     }
 }

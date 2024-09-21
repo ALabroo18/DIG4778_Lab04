@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     // Laser weapon the player spawns when pressing the attacking/shooting button.
-    public GameObject laserPrefab;
+    [SerializeField] private GameObject laserPrefab;
 
     // Speed the player moves at.
     private float speed = 6f;

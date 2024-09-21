@@ -5,15 +5,37 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    // Singleton reference for easy referencing in other scripts.
+    public static GameManager instance;
+
     // Prefabs that are spawned during runtime.
-    public GameObject playerPrefab;
-    public GameObject meteorPrefab;
-    public GameObject bigMeteorPrefab;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject meteorPrefab;
+    [SerializeField] private GameObject bigMeteorPrefab;
 
-    public bool gameOver = false;
+    private bool _gameOver;
+    public bool gameOver
+    {
+        get { return _gameOver; }
+        set { _gameOver = value; }
+    }
 
-    // meteorCount is used to determines when the big meteor will spawn.
-    public int meteorCount = 0;
+    // meteorCount is used to determine when the big meteor will spawn.
+    private int _meteorCount = 0;
+    public int meteorCount
+    {
+        get { return _meteorCount; }
+        set { _meteorCount = value; }
+    }
+
+    private void Awake()
+    {
+        // Set singleton ref.
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
 
     void Start()
     {
@@ -25,20 +47,20 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         // If the game is over, cancel the invokes and stop playing the background music.
-        if (gameOver)
+        if (_gameOver)
         {
             CancelInvoke();
             GetComponent<AudioSource>().Stop();
         }
 
         // If the player presses the restart button once the game is over, the game will reload. 
-        if (InputManager.instance.restartInput && gameOver)
+        if (InputManager.instance.restartInput && _gameOver)
         {
             SceneManager.LoadScene("Week5Lab");
         }
 
         // If the meteor count is equal to 5, it is time to spawn a big ole meteor.
-        if (meteorCount == 5)
+        if (_meteorCount == 5)
         {
             BigMeteor();
         }
@@ -50,10 +72,10 @@ public class GameManager : MonoBehaviour
         Instantiate(meteorPrefab, new Vector3(Random.Range(-8, 8), 7.5f, 0), Quaternion.identity);
     }
 
-    // Spawn a big meteor and reset the meteor count so another big meteor does not spawn until 5 meteors have been hit.
+    // Spawn a big meteor and reset the meteor count so another big meteor does not spawn until 5 more meteors have been hit.
     void BigMeteor()
     {
-        meteorCount = 0;
+        _meteorCount = 0;
         Instantiate(bigMeteorPrefab, new Vector3(Random.Range(-8, 8), 7.5f, 0), Quaternion.identity);
     }
 }

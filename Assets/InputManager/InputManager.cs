@@ -12,7 +12,7 @@ public class InputManager : MonoBehaviour
     public static PlayerInput playerInput;
 
     // Inputs that will be referenced in other scripts to get their values and use them.
-    public Vector2 moveInput {  get; private set; }
+    public Vector2 moveInput { get; private set; }
     public bool attackInput { get; private set; }
     public bool restartInput { get; private set; }
 

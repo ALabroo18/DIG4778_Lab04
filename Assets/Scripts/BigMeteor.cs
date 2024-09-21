@@ -3,16 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigMeteor : MonoBehaviour
+public class BigMeteor : Meteors
 {
     // The number of times the meteor has been hit.
     private int hitCount = 0;
 
     // The speed at which the big meteor moves.
     private float bigMeteorSpeed = 0.5f;
-
-    // Once the meteor reaces the below y coordinate, it will be destroyed.
-    private float bottomScreenLimit = -11f;
 
     // Reference to impulse source component on object.
     private CinemachineImpulseSource impulseSource;
@@ -28,7 +25,7 @@ public class BigMeteor : MonoBehaviour
 
     void Update()
     {
-        BigMeteorMovement();
+        MeteorMovement();
     }
 
     private void OnTriggerEnter2D(Collider2D whatIHit)
@@ -38,7 +35,7 @@ public class BigMeteor : MonoBehaviour
         {
             // Create a screen shake, set the game to over, play the player death sound, and destroy the player.
             CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, 1f);
-            GameObject.Find("GameManager").GetComponent<GameManager>().gameOver = true;
+            GameManager.instance.gameOver = true;
             AudioManager.instance.PlayPlayerDeath(transform.position, 1f);
             Destroy(whatIHit.gameObject);
         }
@@ -66,15 +63,9 @@ public class BigMeteor : MonoBehaviour
         }
     }
 
-    private void BigMeteorMovement()
+    public override void MeteorMovement()
     {
         // Move the big meteor down at its move speed.
         transform.Translate(Vector3.down * Time.deltaTime * bigMeteorSpeed);
-
-        // If the big meteor exits the bottom edge of the screen, destroy it to prevent build up of unneeded game objects.
-        if (transform.position.y < bottomScreenLimit)
-        {
-            Destroy(this.gameObject);
-        }
     }
 }
