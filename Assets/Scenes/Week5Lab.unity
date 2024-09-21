@@ -708,7 +708,7 @@ MonoBehaviour:
   playerShoot: {fileID: 8300000, guid: be23b1b65435926498dddb9f02eae1a0, type: 3}
   smallMeteorDestroy: {fileID: 8300000, guid: 4dee5c5026bb1c34198c786fcc2cd6dd, type: 3}
   bigMeteorDestroy: {fileID: 8300000, guid: 237d4d5630e7f7943b558e2bd839098a, type: 3}
-  bigMeteorHit: {fileID: 8300000, guid: 4dee5c5026bb1c34198c786fcc2cd6dd, type: 3}
+  bigMeteorHit: {fileID: 8300000, guid: d637474a6692bc746923fcfa8c4bceda, type: 3}
   playerDeath: {fileID: 8300000, guid: b48346725a62fe44b87723bc26b14921, type: 3}
 --- !u!82 &1153896495
 AudioSource:
