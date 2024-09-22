@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigMeteor : MonoBehaviour
+public class Meteor : MonoBehaviour
 {
-    private int hitCount = 0;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -15,14 +14,9 @@ public class BigMeteor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.down * Time.deltaTime * 0.5f);
+        transform.Translate(Vector3.down * Time.deltaTime * 2f);
 
         if (transform.position.y < -11f)
-        {
-            Destroy(this.gameObject);
-        }
-
-        if (hitCount >= 5)
         {
             Destroy(this.gameObject);
         }
@@ -34,11 +28,12 @@ public class BigMeteor : MonoBehaviour
         {
             GameObject.Find("GameManager").GetComponent<GameManager>().gameOver = true;
             Destroy(whatIHit.gameObject);
-        }
-        else if (whatIHit.tag == "Laser")
+            Destroy(this.gameObject);
+        } else if (whatIHit.tag == "Laser")
         {
-            hitCount++;
+            GameObject.Find("GameManager").GetComponent<GameManager>().meteorCount++;
             Destroy(whatIHit.gameObject);
+            Destroy(this.gameObject);
         }
     }
 }
