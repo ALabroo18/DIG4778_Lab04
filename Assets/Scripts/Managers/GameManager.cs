@@ -43,11 +43,6 @@ public class GameManager : MonoBehaviour
         InvokeRepeating("SpawnMeteor", 1f, 2f);
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         // If the game is over, cancel the invokes and stop playing the background music.
@@ -67,11 +62,6 @@ public class GameManager : MonoBehaviour
         if (_meteorCount == 5)
         {
             BigMeteor();
-        }
-
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            _meteorCount = 5;
         }
     }
 

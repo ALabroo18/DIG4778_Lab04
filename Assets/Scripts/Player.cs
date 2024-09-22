@@ -27,6 +27,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        // Assign ref.
         playerAS = GetComponent<AudioSource>();
     }
 
