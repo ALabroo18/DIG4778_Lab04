@@ -11,47 +11,24 @@ public class BigMeteor : Meteor
     // The speed at which the big meteor moves.
     private float bigMeteorSpeed = 0.5f;
 
-    // Reference to impulse source component on object.
-    private CinemachineImpulseSource impulseSource;
-
-    // Screen shake profile created for this object.
-    [SerializeField] private ScreenShakeProfile profile;
-
-    void Start()
+    protected override void OnTriggerEnter2D(Collider2D whatIHit)
     {
-        // Set reference.
-        impulseSource = GetComponent<CinemachineImpulseSource>();
-    }
-
-    void Update()
-    {
-        MeteorMovement();
-    }
-
-    private void OnTriggerEnter2D(Collider2D whatIHit)
-    {
-        // If the player is hit, do the following.
-        if (whatIHit.tag == "Player")
-        {
-            // Create a screen shake, set the game to over, play the player death sound, and destroy the player.
-            CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, 1f);
-            GameManager.instance.gameOver = true;
-            AudioManager.instance.PlayPlayerDeath(transform.position, 1f);
-            Destroy(whatIHit.gameObject);
-        }
+        base.OnTriggerEnter2D (whatIHit);
 
         // If the laser has been hit, do the following.
-        else if (whatIHit.tag == "Laser")
+        if (whatIHit.tag == "Laser")
         {
             // Add one to the hit count variable that determines when the big meteor is destroyed. Also, destroy the laser.
             hitCount++;
             Destroy(whatIHit.gameObject);
 
-            // If the hit count is 5 or above, play the big meteor explosion sound, create a screen shake, and destroy the big meteor.
+            // If the hit count is 5 or above, play the big meteor explosion sound, create a screen shake,
+            // reset the camera's FOV (zoom back in), and destroy the big meteor.
             if (hitCount >= 5)
             {
                 AudioManager.instance.PlayBigMeteorDestroy(transform.position, 1f);
                 CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, profile.impulseForce);
+                CinemachineManager.instance.ResetFOV();
                 Destroy(this.gameObject);
             }
             // If the hit count is NOT above or equal to 5 (it's 4 or less), play the big meteor hit sound and create a screenshake.
@@ -63,9 +40,12 @@ public class BigMeteor : Meteor
         }
     }
 
-    public override void MeteorMovement()
+    protected override void MeteorMovement()
     {
         // Move the big meteor down at its move speed.
         transform.Translate(Vector3.down * Time.deltaTime * bigMeteorSpeed);
+
+        // The base version of this function checks to see if the meteor is located at the point where they will be destroyed.
+        base.MeteorMovement();
     }
 }

@@ -8,37 +8,11 @@ public class RegularMeteor : Meteor
     // The speed the meteor moves at.
     private float meteorSpeed = 2f;
 
-    // Reference to impulse source component on object.
-    private CinemachineImpulseSource impulseSource;
-
-    // Screen shake profile created for this object.
-    [SerializeField] private ScreenShakeProfile profile;
-
-    void Start()
+    protected override void OnTriggerEnter2D(Collider2D whatIHit)
     {
-        // Set reference.
-        impulseSource = GetComponent<CinemachineImpulseSource>();
-    }
-
-    void Update()
-    {
-        MeteorMovement();
-    }
-
-    private void OnTriggerEnter2D(Collider2D whatIHit)
-    {
-        // If the meteor collides with the player, do the following.
-        if (whatIHit.tag == "Player")
-        {
-            // Create a screenshake, set the game to over, play the player's death sound, destroy the player, and destroy the meteor.
-            CameraShakeManager.instance.ScreenShakeFromProfile(profile, impulseSource, 1f);
-            GameManager.instance.gameOver = true;
-            AudioManager.instance.PlayPlayerDeath(transform.position, 1f);
-            Destroy(whatIHit.gameObject);
-            Destroy(this.gameObject);
-        } 
+        base.OnTriggerEnter2D (whatIHit);
         // If the meteor collides with the laser, do the following.
-        else if (whatIHit.tag == "Laser")
+        if (whatIHit.tag == "Laser")
         {
             // Create a screenshake, play the meteor explosion sound, add one to the meteor count variable that determines when a big meteor is spawned,
             // destory the laser, and destroy the meteor.
@@ -50,9 +24,12 @@ public class RegularMeteor : Meteor
         }
     }
 
-    public override void MeteorMovement()
+    protected override void MeteorMovement()
     {
         // Move the meteor down based on its move speed.
         transform.Translate(Vector3.down * Time.deltaTime * meteorSpeed);
+
+        // The base version of this function checks to see if the meteor is located at the point where they will be destroyed.
+        base.MeteorMovement();
     }
 }

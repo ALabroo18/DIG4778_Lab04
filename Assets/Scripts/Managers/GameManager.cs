@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour
         set { _meteorCount = value; }
     }
 
+    private float zoomOutFOV = 80f;
+
     private void Awake()
     {
         // Set singleton ref.
@@ -35,13 +37,15 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+
+        // Spawn the player and begin repeatedly spawning meteors.
+        Instantiate(playerPrefab, transform.position, Quaternion.identity);
+        InvokeRepeating("SpawnMeteor", 1f, 2f);
     }
 
     void Start()
     {
-        // Spawn the player and begin repeatedly spawning meteors.
-        Instantiate(playerPrefab, transform.position, Quaternion.identity);
-        InvokeRepeating("SpawnMeteor", 1f, 2f);
+        
     }
 
     void Update()
@@ -64,6 +68,11 @@ public class GameManager : MonoBehaviour
         {
             BigMeteor();
         }
+
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            _meteorCount = 5;
+        }
     }
 
     // Spawn a meteor at the top of the screen, but at a random spot horizontally.
@@ -73,9 +82,11 @@ public class GameManager : MonoBehaviour
     }
 
     // Spawn a big meteor and reset the meteor count so another big meteor does not spawn until 5 more meteors have been hit.
+    // Also, begin zooming out the camera.
     void BigMeteor()
     {
         _meteorCount = 0;
         Instantiate(bigMeteorPrefab, new Vector3(Random.Range(-8, 8), 7.5f, 0), Quaternion.identity);
+        CinemachineManager.instance.ChangeFOV(zoomOutFOV);
     }
 }
