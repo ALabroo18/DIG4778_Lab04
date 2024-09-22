@@ -18,17 +18,48 @@ public class Player : MonoBehaviour
     private bool canShoot = true;
     private float cooldown = 1f;
 
+    // Movement variables.
+    private float horizontalMovement;
+    private float verticalMovement;
+    
+    // Player's audio source.
+    private AudioSource playerAS;
+
+    private void Start()
+    {
+        playerAS = GetComponent<AudioSource>();
+    }
+
     void Update()
     {
         Movement();
         Shooting();
+        ScreenLimitChecks();
     }
 
     void Movement()
     {
+        // Set movement variables.
+        horizontalMovement = InputManager.instance.moveInput.x;
+        verticalMovement = InputManager.instance.moveInput.y;
+
         // Translate the player based on the x and y values produced by their moveInput. Additionally, move them based on their speed variable.
-        transform.Translate(new Vector3(InputManager.instance.moveInput.x, InputManager.instance.moveInput.y, 0) * Time.deltaTime * speed);
+        transform.Translate(new Vector3(horizontalMovement, verticalMovement, 0) * Time.deltaTime * speed);
         
+        // Player move sound that plays when they are moving. This is done in the player script because it works much better
+        // than doing it in the audio manager script.
+        if ((horizontalMovement != 0 || verticalMovement != 0) && !GameManager.instance.gameOver && !playerAS.isPlaying)
+        {
+            playerAS.Play();
+        }
+        else if ((horizontalMovement == 0 && verticalMovement == 0) || GameManager.instance.gameOver)
+        {
+            playerAS.Stop();
+        }
+    }
+
+    void ScreenLimitChecks()
+    {
         // If the player reaches the horizontal or vertical screen limits, put them at the opposite end.
         // For example, if player hits the left screen limit, they will be put at the right side.
         if (transform.position.x > horizontalScreenLimit || transform.position.x <= -horizontalScreenLimit)

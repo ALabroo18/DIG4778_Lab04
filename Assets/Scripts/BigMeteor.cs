@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BigMeteor : Meteors
+public class BigMeteor : Meteor
 {
     // The number of times the meteor has been hit.
     private int hitCount = 0;
