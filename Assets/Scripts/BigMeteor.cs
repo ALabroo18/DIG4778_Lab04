@@ -39,6 +39,10 @@ public class BigMeteor : MonoBehaviour
         {
             hitCount++;
             Destroy(whatIHit.gameObject);
+            if(hitCount == 5)
+            {
+                CameraShake.Instance.ShakeCam(7f, .3f);
+            }
         }
     }
 }
